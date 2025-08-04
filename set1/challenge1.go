@@ -1,26 +1,22 @@
 package set1
 
 import (
-	"fmt"
+	"encoding/base64"
+	"encoding/hex"
+	"log"
 )
 
-func ConvertHexToBase64(hex string) string {
-	hexByte := []byte(hex)
-	hexDecoded, err := decodeHex(hexByte)
+func ConvertHexToBase64(hexString string) string {
+	// input hexString
+	// convert to array of byte
+	hexByte := []byte(hexString)
+	dst := make([]byte, hex.DecodedLen(len(hexString)))
+	_, err := hex.Decode(dst, hexByte)
 	if err != nil {
-		fmt.Printf("Error decoding Hex")
+		log.Fatal(err)
 	}
-	base64Encoded, err := encodeHex(hexDecoded)
-	if err != nil {
-		fmt.Printf("error encoding to base64")
-	}
-	return toStr(base64Encoded)
-}
-
-func decodeHex(input []byte) ([]byte, error) {
-	return input, nil
-}
-
-func encodeHex(input []byte) ([]byte, error) {
-	return input, nil
+	eb := make([]byte, base64.StdEncoding.EncodedLen(len(dst)))
+	base64.StdEncoding.Encode(eb, dst)
+	// dst := make([]byte, hex.EncodedLen(len(decoded)))
+	return base64.StdEncoding.EncodeToString(dst)
 }
