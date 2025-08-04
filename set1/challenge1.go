@@ -6,17 +6,33 @@ import (
 	"log"
 )
 
-func ConvertHexToBase64(hexString string) string {
-	// input hexString
-	// convert to array of byte
-	hexByte := []byte(hexString)
-	dst := make([]byte, hex.DecodedLen(len(hexString)))
-	_, err := hex.Decode(dst, hexByte)
+func HexToBase64String(hexString string) string {
+	// convert hexString to raw bytes
+	decoded, err := hex.DecodeString(hexString)
 	if err != nil {
 		log.Fatal(err)
 	}
-	eb := make([]byte, base64.StdEncoding.EncodedLen(len(dst)))
-	base64.StdEncoding.Encode(eb, dst)
-	// dst := make([]byte, hex.EncodedLen(len(decoded)))
-	return base64.StdEncoding.EncodeToString(dst)
+
+	// Encode to String
+	encString := base64.StdEncoding.EncodeToString(decoded)
+	return encString
+}
+
+func HexToBase64Bytes(hexString string) []byte {
+	// convert hexString to raw bytes
+	decoded, err := hex.DecodeString(hexString)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// calculate len of enc
+	encLen := base64.StdEncoding.EncodedLen(len(decoded))
+
+	// create a byte array of size encLen
+	encByte := make([]byte, encLen)
+
+	// encode to base64
+	base64.StdEncoding.Encode(encByte, decoded)
+
+	return encByte
 }
