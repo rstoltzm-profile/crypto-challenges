@@ -47,6 +47,7 @@ func DecryptMessage(input string) (string, error) {
 
 func GetCharWeight(char byte) int {
 	// function to weight most common characters in english language and phrases
+	// Most common english letters in order? ETAOIN SHRDLU
 	wm := map[byte]int{
 		byte('?'):  1,
 		byte('\''): 1,
